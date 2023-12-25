@@ -14,22 +14,9 @@ using namespace std;
 
 class Map
 {
-private:
-	vector<vector<vector<int>>> _maps;
-	vector<vector<vector<MapSquare>>> maps;
-
-	void preprocessMaps();
-
-protected:
-	static Vector2i dimensions;
-	static Vector2f mapPosition;
-
 public:
-	Map();
-
-	static Vector2i getDimensions();
-	static Vector2f getMapPosition();
-	vector<vector<MapSquare>> get(int);
+	static const Vector2i dimensions;
+	static const Vector2f mapPosition;
 };
 
 #endif // !MAP

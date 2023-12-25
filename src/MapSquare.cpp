@@ -4,11 +4,12 @@
 #include "Wall.h"
 #include "Start.h"
 #include "Finish.h"
+#include "Map.h"
 #include <iostream>
 
 using namespace std;
 
-const int MapSquare::size = 32;
+const int MapSquare::size = 16;
 
 MapSquare::MapSquare()
 {
@@ -31,6 +32,10 @@ Vector2f MapSquare::getPos()
 RectangleShape* MapSquare::getSprite()
 {
 	return &shape;
+}
+void MapSquare::setPos(int x, int y)
+{
+	setPos(Vector2f(x * size + Map::mapPosition.x, y * size + Map::mapPosition.y));
 }
 void MapSquare::setPos(Vector2f new_position)
 {

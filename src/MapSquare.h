@@ -24,7 +24,8 @@ public:
 
 	static int getSize();
 	Vector2f getPos();
-	void setPos(Vector2f new_position);
+	void setPos(int, int);
+	void setPos(Vector2f);
 	RectangleShape* getSprite();
 	virtual Color getColor();
 };

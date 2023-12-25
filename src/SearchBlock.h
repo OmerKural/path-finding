@@ -13,7 +13,7 @@ private:
 public:
 	static const Color color;
 	
-	SearchBlock();
+	SearchBlock(int, int);
 
 	Color getColor();
 };

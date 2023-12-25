@@ -42,10 +42,12 @@ void Engine::run()
 	BFS bfsAlgo(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 	// DFS dfsAlgo(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 
+	bool isLMBDown = false;
+
 	while (window.isOpen())
 	{
-		sleep(milliseconds(100));
-
+		//sleep(milliseconds(100));,
+		
 		// Controls
 		while (window.pollEvent(event))
 		{
@@ -59,18 +61,27 @@ void Engine::run()
 			if (event.type == Event::KeyPressed && event.key.code == Keyboard::Num2)
 				mode.setModeVal(2);
 
-			/// \BUG
 			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
-				Vector2i selectedSquare = Grid::getSquareByMousePos(event.mouseButton.x, event.mouseButton.y);
-				gridObj.updateSquare(selectedSquare, 1);
-				grid = gridObj.getGrid();
-				bfsAlgo = BFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
- 			}
+				isLMBDown = true;
+			}
+			if (event.type == Event::MouseButtonReleased && event.mouseButton.button == Mouse::Left) {
+				isLMBDown = false;
+			}
+		}
+
+		if (isLMBDown)
+		{
+			Vector2i selectedSquare = Grid::getSquareByMousePos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
+			gridObj.updateSquare(selectedSquare, 1);
+			grid = gridObj.getGrid();
+			bfsAlgo = BFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 		}
 
 		// Play ------------------------------------
-		if (mode.getModeVal() == 2)
+		if (mode.getModeVal() == 2) {
 			bfsAlgo.step(grid);
+
+		}
 
 		window.clear();
 		

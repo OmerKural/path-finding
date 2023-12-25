@@ -37,7 +37,7 @@ void BFS::step(vector<vector<MapSquare*>>& grid)
 
 	if (cur != startPos && cur != target)
 	{
-		grid[cur.x][cur.y] = new SearchBlock();
+		grid[cur.x][cur.y] = new SearchBlock(cur.x, cur.y);
 	}
 
 	if (cur == target)
@@ -45,7 +45,7 @@ void BFS::step(vector<vector<MapSquare*>>& grid)
 		finished = true;
 		for (Vector2i pos : path)
 			if (pos != startPos && pos != target)
-				grid[pos.x][pos.y] = new Path();
+				grid[pos.x][pos.y] = new Path(pos.x, pos.y);
 		return;
 	}
 	
@@ -55,10 +55,9 @@ void BFS::step(vector<vector<MapSquare*>>& grid)
 		int newY = cur.y + d.second;
 		if (0 <= newX && newX < grid.size() &&
 			0 <= newY && newY < grid[0].size() &&
-			!visited[newX][newY] && dynamic_cast<Wall*>(grid[newX][newY]) != nullptr)
+			!visited[newX][newY] && dynamic_cast<Wall*>(grid[newX][newY]) == nullptr)
 		{
 			MapSquare* sq = grid[newX][newY];
-			cout << typeid(grid[newX][newY]).name() << endl;
 			vector<Vector2i> newPath = path;
 			newPath.push_back(Vector2i(newX, newY));
 			bfsQ.push(newPath);

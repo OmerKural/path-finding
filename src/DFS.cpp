@@ -37,7 +37,7 @@ void DFS::step(vector<vector<MapSquare*>>& grid)
 
 	if (cur != startPos && cur != targetPos)
 	{
-		grid[cur.x][cur.y] = new SearchBlock();
+		grid[cur.x][cur.y] = new SearchBlock(cur.x, cur.y);
 	}
 
 	if (cur == targetPos)
@@ -45,7 +45,7 @@ void DFS::step(vector<vector<MapSquare*>>& grid)
 		finished = true;
 		for (Vector2i pos : path)
 			if (pos != startPos && pos != targetPos)
-				grid[pos.x][pos.y] = new Path();
+				grid[pos.x][pos.y] = new Path(pos.x, pos.y);
 		return;
 	}
 

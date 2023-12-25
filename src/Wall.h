@@ -14,7 +14,7 @@ private:
 public:
 	static const Color color;
 
-	Wall();
+	Wall(int, int);
 
 	Color getColor();
 };

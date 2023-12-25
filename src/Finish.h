@@ -14,7 +14,7 @@ private:
 public:
 	static const Color color;
 
-	Finish();
+	Finish(int, int);
 
 	Color getColor();
 };

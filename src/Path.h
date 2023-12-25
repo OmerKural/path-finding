@@ -13,7 +13,7 @@ private:
 public:
 	const static Color color;
 
-	Path();
+	Path(int, int);
 
 	Color getColor();
 };

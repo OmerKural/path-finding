@@ -14,7 +14,7 @@ private:
 public:
 	static const Color color;
 
-	Start();
+	Start(int, int);
 
 	Color getColor();
 };

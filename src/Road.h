@@ -14,7 +14,7 @@ private:
 public:
 	static const Color color;
 
-	Road();
+	Road(int, int);
 
 	Color getColor() override;
 };
