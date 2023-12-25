@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SFML\include;C:\Users\omerk\source\repos\path-finding\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,27 +131,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BFS.cpp" />
-    <ClCompile Include="DFS.cpp" />
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Finish.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapSquare.cpp" />
-    <ClCompile Include="Road.cpp" />
-    <ClCompile Include="Start.cpp" />
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="src\BFS.cpp" />
+    <ClCompile Include="src\DFS.cpp" />
+    <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\Finish.cpp" />
+    <ClCompile Include="src\Grid.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\MapSquare.cpp" />
+    <ClCompile Include="src\Mode.cpp" />
+    <ClCompile Include="src\Path.cpp" />
+    <ClCompile Include="src\Road.cpp" />
+    <ClCompile Include="src\SearchBlock.cpp" />
+    <ClCompile Include="src\Start.cpp" />
+    <ClCompile Include="src\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BFS.h" />
-    <ClInclude Include="DFS.h" />
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Finish.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="MapSquare.h" />
-    <ClInclude Include="Road.h" />
-    <ClInclude Include="Start.h" />
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="src\BFS.h" />
+    <ClInclude Include="src\DFS.h" />
+    <ClInclude Include="src\Engine.h" />
+    <ClInclude Include="src\Finish.h" />
+    <ClInclude Include="src\Grid.h" />
+    <ClInclude Include="src\Map.h" />
+    <ClInclude Include="src\MapSquare.h" />
+    <ClInclude Include="src\Mode.h" />
+    <ClInclude Include="src\Path.h" />
+    <ClInclude Include="src\Road.h" />
+    <ClInclude Include="src\SearchBlock.h" />
+    <ClInclude Include="src\Start.h" />
+    <ClInclude Include="src\Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

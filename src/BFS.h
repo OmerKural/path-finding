@@ -1,34 +1,33 @@
-#ifndef _DFS
-#define _DFS
-
+#ifndef _BFS
+#define _BFS
 
 #include <SFML/Graphics.hpp>
 #include "MapSquare.h"
 #include <vector>
-#include <stack>
+#include <queue>
 
 using namespace std;
 using namespace sf;
 
-class DFS
+class BFS
 {
 private:
 	vector<pair<int, int>> directions = {
 		{-1, 0}, {0, -1}, {1, 0}, {0, 1}
 	};
-	Vector2i dimentions, start, target, cur;
+	Vector2i dimensions, startPos, target, cur;
 
 	vector<vector<bool>> visited;
-	stack<vector<Vector2i>> dfsS;
+	queue<vector<Vector2i>> bfsQ;
 
 public:
 	bool finished;
 
-	DFS(vector<vector<MapSquare>>&, Vector2i, Vector2i);
+	BFS(vector<vector<MapSquare*>>&, Vector2i, Vector2i);
 
-	void step(vector<vector<MapSquare>>&);
+	void step(vector<vector<MapSquare*>>&);
 };
 
-#endif // !_DFS
+#endif // !_BFS
 
 

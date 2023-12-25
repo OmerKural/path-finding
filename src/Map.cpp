@@ -1,13 +1,22 @@
 #include "Map.h"
 
+// static attributes
+
+Vector2i Map::dimensions = Vector2i(16, 16);
+
+Vector2f Map::mapPosition = Vector2f(
+    Engine::MID.x - dimensions.x / 2 * MapSquare::getSize(),
+    Engine::MID.y - dimensions.y / 2 * MapSquare::getSize()
+);
+
 // private methods
 void Map::preprocessMaps()
 {
     for (int n = 0; n < _maps.size(); n++)
     {
-        for (int r = 0; r < dimentions.x; r++)
+        for (int r = 0; r < dimensions.y; r++)
         {
-            for (int c = 0; c < dimentions.y; c++)
+            for (int c = 0; c < dimensions.x; c++)
             {
                 if (_maps[n][r][c] == 0) maps[n][r][c] = Road();
                 if (_maps[n][r][c] == 1) maps[n][r][c] = Wall();
@@ -79,11 +88,9 @@ Map::Map()
         }
 	};
 
-    dimentions = Vector2i(16, 16);
-
     maps = vector<vector<vector<MapSquare>>>(3, vector<vector<MapSquare>>(
-                                             dimentions.x, vector<MapSquare>(
-                                             dimentions.y))
+                                             dimensions.y, vector<MapSquare>(
+                                             dimensions.x))
                                             );
     preprocessMaps();
 }
@@ -91,4 +98,14 @@ Map::Map()
 vector<vector<MapSquare>> Map::get(int n)
 {
     return maps[n];
+}
+
+Vector2i Map::getDimensions()
+{
+    return dimensions;
+}
+
+Vector2f Map::getMapPosition()
+{
+    return mapPosition;
 }

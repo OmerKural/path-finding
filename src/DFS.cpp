@@ -1,5 +1,9 @@
 #include "DFS.h"
 #include "MapSquare.h"
+#include "Engine.h"
+#include "Wall.h"
+#include "Path.h"
+#include "SearchBlock.h"
 
 #include <stack>
 #include <iostream>
@@ -10,20 +14,20 @@ using namespace std;
 
 // public methods
 
-DFS::DFS(vector<vector<MapSquare>>& grid, Vector2i start, Vector2i target)
+DFS::DFS(vector<vector<MapSquare*>>& grid, Vector2i startPos, Vector2i targetPos)
 {
-	this->dimentions = Vector2i(grid.size(), grid[0].size());
-	this->start = start;
-	this->cur = this->start;
-	this->target = target;
+	this->dimensions = Vector2i(grid.size(), grid[0].size());
+	this->startPos = startPos;
+	this->cur = this->startPos;
+	this->targetPos = targetPos;
 
-	visited = vector<vector<bool>>(dimentions.x, vector<bool>(dimentions.y, false));
-	dfsS = stack<vector<Vector2i>>(); dfsS.push({ start });
+	visited = vector<vector<bool>>(dimensions.x, vector<bool>(dimensions.y, false));
+	dfsS = stack<vector<Vector2i>>(); dfsS.push({ startPos });
 	finished = false;
 };
 
 
-void DFS::step(vector<vector<MapSquare>>& grid)
+void DFS::step(vector<vector<MapSquare*>>& grid)
 {
 	if (dfsS.empty() || finished) return;
 
@@ -31,17 +35,17 @@ void DFS::step(vector<vector<MapSquare>>& grid)
 	cur = path[path.size() - 1];
 	dfsS.pop();
 
-	if (cur != start && cur != target)
+	if (cur != startPos && cur != targetPos)
 	{
-		grid[cur.x][cur.y].setColor(Color(240, 159, 156));
+		grid[cur.x][cur.y] = new SearchBlock();
 	}
 
-	if (cur == target)
+	if (cur == targetPos)
 	{
 		finished = true;
 		for (Vector2i pos : path)
-			if (pos != start && pos != target)
-				grid[pos.x][pos.y].setColor(Color(99, 43, 108));
+			if (pos != startPos && pos != targetPos)
+				grid[pos.x][pos.y] = new Path();
 		return;
 	}
 

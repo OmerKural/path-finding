@@ -9,6 +9,14 @@ using namespace sf;
 
 class Start :public MapSquare
 {
+private:
+
+public:
+	static const Color color;
+
+	Start();
+
+	Color getColor();
 };
 
 #endif // START

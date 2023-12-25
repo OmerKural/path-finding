@@ -7,8 +7,16 @@
 using namespace std;
 using namespace sf;
 
-class Finish :public MapSquare
+class Finish:public MapSquare
 {
+private:
+
+public:
+	static const Color color;
+
+	Finish();
+
+	Color getColor();
 };
 
 #endif // FINISH

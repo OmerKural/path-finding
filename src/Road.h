@@ -9,6 +9,14 @@ using namespace sf;
 
 class Road:public MapSquare
 {
+private:
+
+public:
+	static const Color color;
+
+	Road();
+
+	Color getColor() override;
 };
 
 #endif // ROAD

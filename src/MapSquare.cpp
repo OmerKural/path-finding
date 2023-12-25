@@ -1,14 +1,21 @@
+#include "Engine.h"
 #include "MapSquare.h"
+#include "Road.h"
+#include "Wall.h"
+#include "Start.h"
+#include "Finish.h"
+#include <iostream>
 
-const int MapSquare::size = 30;
+using namespace std;
+
+const int MapSquare::size = 32;
 
 MapSquare::MapSquare()
 {
 	position = Vector2f(0.f, 0.f);
-	color = Color::White;
 
 	shape.setSize(Vector2f(size, size));
-	shape.setFillColor(color);
+	shape.setFillColor(Color::White);
 	shape.setOutlineColor(Color::Black);
 	shape.setOutlineThickness(2.f);
 }
@@ -21,21 +28,17 @@ Vector2f MapSquare::getPos()
 {
 	return position;
 }
-RectangleShape MapSquare::getSprite()
+RectangleShape* MapSquare::getSprite()
 {
-	return shape;
-}
-Color MapSquare::getColor()
-{
-	return color;
+	return &shape;
 }
 void MapSquare::setPos(Vector2f new_position)
 {
 	position = new_position;
-	shape.setPosition(position);
+	shape.setPosition(new_position);
 }
-void MapSquare::setColor(Color new_color)
+
+Color MapSquare::getColor()
 {
-	color = new_color;
-	shape.setFillColor(color);
+	return Color();
 }

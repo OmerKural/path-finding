@@ -5,33 +5,28 @@
 
 using namespace sf;
 
-/**
-* 1 -> Road 
-* 2 -> Wall -> toggle drawing mode with 'W'
-* 
-
-*/
+/// <summary>
+/// 0 -> road
+/// 1 -> wall
+/// 2 -> start
+/// 3 -> target
+/// </summary>
 
 class MapSquare
 {
 private:
-
-	RectangleShape shape;
+	static const int size;
 	Vector2f position;
-	Color color;
+	RectangleShape shape;
 
 public:
-	static const int size;
-
 	MapSquare();
 
-	int getSize();
+	static int getSize();
 	Vector2f getPos();
-	RectangleShape getSprite();
-	Color getColor();
 	void setPos(Vector2f new_position);
-	void setColor(Color new_color);
-
+	RectangleShape* getSprite();
+	virtual Color getColor();
 };
 
 

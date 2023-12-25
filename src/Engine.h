@@ -20,7 +20,8 @@ private:
 public:
 	static const unsigned int WIDTH = 800;
 	static const unsigned int HEIGHT = 600;
-	Vector2f MID = Vector2f(WIDTH / 2, HEIGHT / 2);
+	static Vector2f MID;
+	
 
 	// Resources
 
