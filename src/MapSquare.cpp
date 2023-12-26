@@ -18,7 +18,7 @@ MapSquare::MapSquare()
 	shape.setSize(Vector2f(size, size));
 	shape.setFillColor(Color::White);
 	shape.setOutlineColor(Color::Black);
-	shape.setOutlineThickness(2.f);
+	shape.setOutlineThickness(1.f);
 }
 
 int MapSquare::getSize()

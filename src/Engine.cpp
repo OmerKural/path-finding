@@ -5,11 +5,13 @@
 #include "Mode.h"
 #include "Map.h"
 #include "Grid.h"
+#include "Button.h"
 
 #include <iostream>
 #include <vector>
 
 using namespace std;
+using namespace sf;
 
 
 /// > ALWAYS USE X, Y
@@ -34,6 +36,7 @@ Engine::Engine()
 
 void Engine::run()
 {
+	Mouse mouse;
 	Mode mode;
 
 	Grid gridObj(Vector2i(1, 0), Vector2i(15, 15));
@@ -42,8 +45,9 @@ void Engine::run()
 	BFS bfsAlgo(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 	// DFS dfsAlgo(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 
-	bool isLMBDown = false;
+	Button* playPauseButton = new Button(Vector2i(10,10));
 
+	bool isLMBDown = false;
 	while (window.isOpen())
 	{
 		//sleep(milliseconds(100));,
@@ -54,40 +58,45 @@ void Engine::run()
 			if (event.type == Event::Closed ||
 				(event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
 				window.close();
-			if (event.type == Event::KeyPressed && event.key.code == Keyboard::Num0)
-				mode.setModeVal(0);
-			if (event.type == Event::KeyPressed && event.key.code == Keyboard::Num1)
-				mode.setModeVal(1);
-			if (event.type == Event::KeyPressed && event.key.code == Keyboard::Num2)
-				mode.setModeVal(2);
 
-			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
+			/**
+			* Coloring
+			*/
+			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
 				isLMBDown = true;
-			}
-			if (event.type == Event::MouseButtonReleased && event.mouseButton.button == Mouse::Left) {
+			if (event.type == Event::MouseButtonReleased && event.mouseButton.button == Mouse::Left)
+			{
 				isLMBDown = false;
+				if (playPauseButton->isClicked(mouse, window))
+				{
+					if (mode.isPlay()) mode.setPause();
+					else if (mode.isPause()) mode.setPlay();
+					cout << mode.getModeVal() << endl;
+				}
 			}
 		}
-
-		if (isLMBDown)
+		
+		if (mode.isDraw() && isLMBDown)
 		{
 			Vector2i selectedSquare = Grid::getSquareByMousePos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
 			gridObj.updateSquare(selectedSquare, 1);
 			grid = gridObj.getGrid();
 			bfsAlgo = BFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 		}
+		
 
 		// Play ------------------------------------
-		if (mode.getModeVal() == 2) {
+		if (mode.isPlay()) {
 			bfsAlgo.step(grid);
-
 		}
 
 		window.clear();
-		
+
 		for (auto &row : grid)
 			for (auto &sq : row)
 				window.draw(*sq->getSprite());
+
+		window.draw(*playPauseButton->getSprite());
 
 		window.display();
 	}

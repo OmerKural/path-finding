@@ -132,10 +132,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\BFS.cpp" />
+    <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\DFS.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\Finish.cpp" />
     <ClCompile Include="src\Grid.cpp" />
+    <ClCompile Include="src\Panel.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Map.cpp" />
     <ClCompile Include="src\MapSquare.cpp" />
@@ -148,10 +150,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BFS.h" />
+    <ClInclude Include="src\Button.h" />
     <ClInclude Include="src\DFS.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\Finish.h" />
     <ClInclude Include="src\Grid.h" />
+    <ClInclude Include="src\Panel.h" />
     <ClInclude Include="src\Map.h" />
     <ClInclude Include="src\MapSquare.h" />
     <ClInclude Include="src\Mode.h" />

@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 
-
 /// \todo
 /// > Make buttons to change modes rather than keybinds.
 /// Vals: 
@@ -11,18 +10,24 @@
 /// 1 -> draw
 /// 2 -> play
 
-
 class Mode
 {
 private:
-	int8_t modeVal;
-
+	int modeVal;
 
 public:
 	Mode();
 
-	int8_t getModeVal();
-	void setModeVal(int8_t);
+	int getModeVal();
+	void setModeVal(int);
+
+	void setPause();
+	void setDraw();
+	void setPlay();
+
+	bool isPause();
+	bool isDraw();
+	bool isPlay();
 };
 
 #endif MODE
