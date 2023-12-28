@@ -1,4 +1,6 @@
 #include "Grid.h"
+#include "Path.h"
+#include "SearchBlock.h"
 
 #include <iostream>
 
@@ -6,6 +8,7 @@ using namespace std;
 
 Grid::Grid()
 {
+	grid = vector<vector<MapSquare*>>();
 	this->startPos = Vector2i(0, 0);
 	this->targetPos = Vector2i(Map::dimensions.y - 1, Map::dimensions.x - 1);
 	create();
@@ -13,6 +16,7 @@ Grid::Grid()
 
 Grid::Grid(Vector2i startPos, Vector2i targetPos)
 {
+	grid = vector<vector<MapSquare*>>();
 	this->startPos = startPos;
 	this->targetPos = targetPos;
 	create();
@@ -33,6 +37,13 @@ void Grid::create()
 	grid[targetPos.x][targetPos.y] = new Finish(targetPos.x, targetPos.y);
 }
 
+void Grid::restartSearch()
+{
+	for (auto& row : grid)
+		for (auto& sq : row)
+			if (dynamic_cast<Path*>(sq) != nullptr || dynamic_cast<SearchBlock*>(sq) != nullptr)
+				sq = new Road(sq->getPos());
+}
 
 Vector2i Grid::getSquareByMousePos(int x, int y)
 {
@@ -40,12 +51,13 @@ Vector2i Grid::getSquareByMousePos(int x, int y)
 	int y0 = Map::mapPosition.y;
 	int dx = x - x0;
 	int dy = y - y0;
-	return Vector2i(dx/MapSquare::getSize(), dy/MapSquare::getSize());
+	return Vector2i(dx/MapSquare::size, dy/MapSquare::size);
 }
 
 void Grid::updateSquare(Vector2i squarePos, int type)
 {
 	if (squarePos.x < 0 || squarePos.y < 0 || squarePos.x >= dimensions.x || squarePos.y >= dimensions.y) return;
+	if (type == 0) grid[squarePos.x][squarePos.y] = new Road(squarePos.x, squarePos.y);
 	if (type == 1) grid[squarePos.x][squarePos.y] = new Wall(squarePos.x, squarePos.y);
 }
 

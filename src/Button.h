@@ -10,12 +10,13 @@ class Button
 private:
 	const Color fillColor = Color(210, 145, 188);
 	const Color outlineColor = Color(149, 125, 173);
-	const Vector2i size = Vector2i(40, 40);
-	Vector2i position;
 	IntRect buttonRect;
 	RectangleShape buttonShape;
 
 public:
+	const static Vector2i size;
+
+	Button();
 	Button(Vector2i);
 
 	bool isClicked(Mouse&, Window&);

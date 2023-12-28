@@ -18,6 +18,7 @@ public:
 	Grid();
 	Grid(Vector2i, Vector2i);
 
+	void restartSearch();
 	static Vector2i getSquareByMousePos(int, int);
 	void updateSquare(Vector2i, int);
 	vector<vector<MapSquare*>> getGrid();

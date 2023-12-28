@@ -3,13 +3,14 @@
 
 #include <SFML/Graphics.hpp>
 #include "MapSquare.h"
+#include "Algorithm.h"
 #include <vector>
 #include <queue>
 
 using namespace std;
 using namespace sf;
 
-class BFS
+class BFS //:public Algorithm
 {
 private:
 	vector<pair<int, int>> directions = {

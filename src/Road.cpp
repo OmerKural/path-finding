@@ -8,6 +8,12 @@ Road::Road(int x, int y)
 	setPos(x, y);
 }
 
+Road::Road(Vector2f position)
+{
+	this->getSprite()->setFillColor(color);
+	setPos(position);
+}
+
 Color Road::getColor()
 {
 	return color;

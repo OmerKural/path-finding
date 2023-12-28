@@ -21,10 +21,6 @@ MapSquare::MapSquare()
 	shape.setOutlineThickness(1.f);
 }
 
-int MapSquare::getSize()
-{
-	return size;
-}
 Vector2f MapSquare::getPos()
 {
 	return position;

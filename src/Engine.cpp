@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "Grid.h"
 #include "Button.h"
+#include "Panel.h"
 
 #include <iostream>
 #include <vector>
@@ -24,6 +25,12 @@ using namespace sf;
 /// MapSquare redefine virtual
 /// <\todo>
 
+/// > MODES:
+/// > 1 -> DFS
+/// > 2 -> BFS
+/// > 3 -> Dijkstra (tbi)
+/// > 4 -> A* (tbi)
+
 Vector2f Engine::MID = Vector2f(Engine::WIDTH / 2, Engine::HEIGHT / 2);
 
 Engine::Engine()
@@ -38,19 +45,27 @@ void Engine::run()
 {
 	Mouse mouse;
 	Mode mode;
+	Panel panel;
 
 	Grid gridObj(Vector2i(1, 0), Vector2i(15, 15));
 	vector<vector<MapSquare*>> grid = gridObj.getGrid();
 
-	BFS bfsAlgo(grid, gridObj.getStartPos(), gridObj.getTargetPos());
-	// DFS dfsAlgo(grid, gridObj.getStartPos(), gridObj.getTargetPos());
+	DFS dfsAlgo = DFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
+	BFS bfsAlgo = BFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
+	bool restart = false; // restart key to restart the grid if play is pressed
+	int playMode = 0; // 0 -> pause
 
-	Button* playPauseButton = new Button(Vector2i(10,10));
+	Button pauseButton = panel.addButton();
+	Button drawButton = panel.addButton();
+	Button startDFSButton = panel.addButton();
+	Button startBFSButton = panel.addButton();
+	/// \todo Button saveCustomGridButton = panel.addButton();
 
-	bool isLMBDown = false;
+
+	bool isLMBDown = false, isRMBDown = false;
 	while (window.isOpen())
 	{
-		//sleep(milliseconds(100));,
+		//sleep(milliseconds(100));
 		
 		// Controls
 		while (window.pollEvent(event))
@@ -59,20 +74,31 @@ void Engine::run()
 				(event.type == Event::KeyPressed && event.key.code == Keyboard::Escape))
 				window.close();
 
-			/**
-			* Coloring
-			*/
+			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Right)
+				isRMBDown = true;
+			if (event.type == Event::MouseButtonReleased && event.mouseButton.button == Mouse::Right)
+				isRMBDown = false;
 			if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
 				isLMBDown = true;
 			if (event.type == Event::MouseButtonReleased && event.mouseButton.button == Mouse::Left)
 			{
 				isLMBDown = false;
-				if (playPauseButton->isClicked(mouse, window))
+				/// button checks
+				if (pauseButton.isClicked(mouse, window)) mode.setPause();
+				if (drawButton.isClicked(mouse, window)) mode.setDraw();
+				if (startDFSButton.isClicked(mouse, window)) 
 				{
-					if (mode.isPlay()) mode.setPause();
-					else if (mode.isPause()) mode.setPlay();
-					cout << mode.getModeVal() << endl;
+					mode.setPlay();
+					restart = true;
+					playMode = 1;
 				}
+				if (startBFSButton.isClicked(mouse, window))
+				{
+					mode.setPlay();
+					restart = true;
+					playMode = 2;
+				}
+				cout << "Current Mode : " << mode.getModeVal() << endl;
 			}
 		}
 		
@@ -81,22 +107,48 @@ void Engine::run()
 			Vector2i selectedSquare = Grid::getSquareByMousePos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
 			gridObj.updateSquare(selectedSquare, 1);
 			grid = gridObj.getGrid();
-			bfsAlgo = BFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
+		}
+		if (mode.isDraw() && isRMBDown)
+		{
+			Vector2i selectedSquare = Grid::getSquareByMousePos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
+			gridObj.updateSquare(selectedSquare, 0);
+			grid = gridObj.getGrid();
 		}
 		
 
 		// Play ------------------------------------
+		if (restart)
+		{
+			gridObj.restartSearch();
+			grid = gridObj.getGrid();
+
+			// to be optimised
+			if (playMode == 1)
+				dfsAlgo = DFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
+			else if (playMode == 2)
+				bfsAlgo = BFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
+			
+			restart = false;
+		}
 		if (mode.isPlay()) {
-			bfsAlgo.step(grid);
+			if (playMode == 1)
+				dfsAlgo.step(grid);
+			else if (playMode == 2)
+				bfsAlgo.step(grid);
 		}
 
 		window.clear();
 
+		// draw the grid
 		for (auto &row : grid)
 			for (auto &sq : row)
 				window.draw(*sq->getSprite());
 
-		window.draw(*playPauseButton->getSprite());
+		// draw the buttons
+		window.draw(*pauseButton.getSprite());
+		window.draw(*drawButton.getSprite());
+		window.draw(*startDFSButton.getSprite());
+		window.draw(*startBFSButton.getSprite());
 
 		window.display();
 	}

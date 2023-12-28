@@ -15,14 +15,14 @@ using namespace sf;
 class MapSquare
 {
 private:
-	static const int size;
 	Vector2f position;
 	RectangleShape shape;
 
 public:
+	static const int size;
+	
 	MapSquare();
 
-	static int getSize();
 	Vector2f getPos();
 	void setPos(int, int);
 	void setPos(Vector2f);

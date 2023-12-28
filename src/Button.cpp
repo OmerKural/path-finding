@@ -2,9 +2,10 @@
 #include <iostream>
 using namespace std;
 
+const Vector2i Button::size = Vector2i(40, 40);
+
 Button::Button(Vector2i position)
 {
-	this->position = position;
 	buttonRect = IntRect(position, size);
 	buttonShape = RectangleShape();
 	buttonShape.setSize(Vector2f(size));

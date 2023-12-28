@@ -55,7 +55,7 @@ void DFS::step(vector<vector<MapSquare*>>& grid)
 		int newY = cur.y + d.second;
 		if (0 <= newX && newX < grid.size() &&
 			0 <= newY && newY < grid[0].size() &&
-			!visited[newX][newY])
+			!visited[newX][newY] && dynamic_cast<Wall*>(grid[newX][newY]) == nullptr)
 		{
 			vector<Vector2i> newPath = path;
 			newPath.push_back(Vector2i(newX, newY));

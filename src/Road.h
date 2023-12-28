@@ -15,6 +15,7 @@ public:
 	static const Color color;
 
 	Road(int, int);
+	Road(Vector2f);
 
 	Color getColor() override;
 };
