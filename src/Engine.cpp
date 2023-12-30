@@ -7,6 +7,7 @@
 #include "Grid.h"
 #include "Button.h"
 #include "Panel.h"
+#include "AStar.h"
 
 #include <iostream>
 #include <vector>
@@ -25,12 +26,6 @@ using namespace sf;
 /// MapSquare redefine virtual
 /// <\todo>
 
-/// > MODES:
-/// > 1 -> DFS
-/// > 2 -> BFS
-/// > 3 -> Dijkstra (tbi)
-/// > 4 -> A* (tbi)
-
 Vector2f Engine::MID = Vector2f(Engine::WIDTH / 2, Engine::HEIGHT / 2);
 
 Engine::Engine()
@@ -47,11 +42,12 @@ void Engine::run()
 	Mode mode;
 	Panel panel;
 
-	Grid gridObj(Vector2i(1, 0), Vector2i(15, 15));
+	Grid gridObj(Vector2i(4 , 4), Vector2i(28,28));
 	vector<vector<MapSquare*>> grid = gridObj.getGrid();
 
 	DFS dfsAlgo = DFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 	BFS bfsAlgo = BFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
+	AStar astarAlgo = AStar(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 	bool restart = false; // restart key to restart the grid if play is pressed
 	int playMode = 0; // 0 -> pause
 
@@ -59,6 +55,7 @@ void Engine::run()
 	Button drawButton = panel.addButton();
 	Button startDFSButton = panel.addButton();
 	Button startBFSButton = panel.addButton();
+	Button startAStarButton = panel.addButton();
 	/// \todo Button saveCustomGridButton = panel.addButton();
 
 
@@ -98,7 +95,12 @@ void Engine::run()
 					restart = true;
 					playMode = 2;
 				}
-				cout << "Current Mode : " << mode.getModeVal() << endl;
+				if (startAStarButton.isClicked(mouse, window))
+				{
+					mode.setPlay();
+					restart = true;
+					playMode = 3;
+				}
 			}
 		}
 		
@@ -127,6 +129,8 @@ void Engine::run()
 				dfsAlgo = DFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 			else if (playMode == 2)
 				bfsAlgo = BFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());
+			else if (playMode == 3)
+				astarAlgo = AStar(grid, gridObj.getStartPos(), gridObj.getTargetPos());
 			
 			restart = false;
 		}
@@ -135,6 +139,8 @@ void Engine::run()
 				dfsAlgo.step(grid);
 			else if (playMode == 2)
 				bfsAlgo.step(grid);
+			else if (playMode == 3)
+				astarAlgo.step(grid);
 		}
 
 		window.clear();
@@ -149,6 +155,7 @@ void Engine::run()
 		window.draw(*drawButton.getSprite());
 		window.draw(*startDFSButton.getSprite());
 		window.draw(*startBFSButton.getSprite());
+		window.draw(*startAStarButton.getSprite());
 
 		window.display();
 	}

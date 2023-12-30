@@ -14,9 +14,10 @@ class BFS //:public Algorithm
 {
 private:
 	vector<pair<int, int>> directions = {
-		{-1, 0}, {0, -1}, {1, 0}, {0, 1}
+		{-1, 0}, {0, -1}, {1, 0}, {0, 1},
+		{-1, 1}, {1, -1}, {1, 1}, {-1, -1}
 	};
-	Vector2i dimensions, startPos, target, cur;
+	Vector2i startPos, target, cur;
 
 	vector<vector<bool>> visited;
 	queue<vector<Vector2i>> bfsQ;

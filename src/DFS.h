@@ -14,9 +14,10 @@ class DFS //:public Algorithm
 {
 private:
 	vector<pair<int, int>> directions = {
-		{-1, 0}, {0, -1}, {1, 0}, {0, 1}
+		{-1, 0}, {0, -1}, {1, 0}, {0, 1},
+		{-1, 1}, {1, -1}, {1, 1}, {-1, -1}
 	};
-	Vector2i dimensions, startPos, targetPos, cur;
+	Vector2i startPos, targetPos, cur;
 
 	vector<vector<bool>> visited;
 	stack<vector<Vector2i>> dfsS;

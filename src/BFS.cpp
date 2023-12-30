@@ -4,6 +4,7 @@
 #include "Wall.h"
 #include "Path.h"
 #include "SearchBlock.h"
+#include "Map.h"
 
 #include <vector>
 #include <iostream>
@@ -16,12 +17,11 @@ using namespace std;
 
 BFS::BFS(vector<vector<MapSquare*>> &grid, Vector2i startPos, Vector2i target)
 {
-	this->dimensions = Vector2i(grid.size(), grid[0].size());
 	this->startPos = startPos;
 	this->cur = this->startPos;
 	this->target = target;
 
-	visited = vector<vector<bool>>(dimensions.x, vector<bool>(dimensions.y, false));
+	visited = vector<vector<bool>>(Map::dimensions.x, vector<bool>(Map::dimensions.y, false));
 	bfsQ = queue<vector<Vector2i>>(); bfsQ.push({ startPos });
 	finished = false;
 };

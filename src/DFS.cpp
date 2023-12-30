@@ -4,6 +4,7 @@
 #include "Wall.h"
 #include "Path.h"
 #include "SearchBlock.h"
+#include "Map.h"
 
 #include <stack>
 #include <iostream>
@@ -15,13 +16,12 @@ using namespace std;
 // public methods
 
 DFS::DFS(vector<vector<MapSquare*>>& grid, Vector2i startPos, Vector2i targetPos)
-{
-	this->dimensions = Vector2i(grid.size(), grid[0].size());
+{;
 	this->startPos = startPos;
 	this->cur = this->startPos;
 	this->targetPos = targetPos;
 
-	visited = vector<vector<bool>>(dimensions.x, vector<bool>(dimensions.y, false));
+	visited = vector<vector<bool>>(Map::dimensions.x, vector<bool>(Map::dimensions.y, false));
 	dfsS = stack<vector<Vector2i>>(); dfsS.push({ startPos });
 	finished = false;
 };
