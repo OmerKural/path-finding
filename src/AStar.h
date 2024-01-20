@@ -11,8 +11,8 @@ using namespace std;
 using namespace sf;
 
 struct Compare {
-	bool operator()(const pair<Vector2i, vector<Vector2i>>& top, const pair<Vector2i, vector<Vector2i>>& bot) const {
-		return top.first.x + top.first.y > bot.first.x + bot.first.y;
+	bool operator()(const pair<int, Vector2i>& top, const pair<int, Vector2i>& bot) const {
+		return top.first > bot.first;
 	}
 };
 
@@ -25,8 +25,10 @@ private:
 	};
 	Vector2i startPos, targetPos, curPos;
 
+	vector<vector<int>> gScore, fScore;
+	vector<vector<Vector2i>> cameFrom;
 	vector<vector<bool>> visited;
-	priority_queue<pair<Vector2i, vector<Vector2i>>, vector<pair<Vector2i, vector<Vector2i>>>, Compare> astarQ;
+	priority_queue<pair<int, Vector2i>, vector<pair<int, Vector2i>>, Compare> astarQ;
 
 public:
 	bool finished;

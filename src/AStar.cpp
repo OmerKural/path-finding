@@ -22,9 +22,14 @@ AStar::AStar(vector<vector<MapSquare*>>& grid, Vector2i startPos, Vector2i targe
 	this->curPos = this->startPos;
 	this->targetPos = targetPos;
 
+	gScore = vector<vector<int>>(Map::dimensions.x, vector<int>(Map::dimensions.y, INT_MAX));
+	fScore = vector<vector<int>>(Map::dimensions.x, vector<int>(Map::dimensions.y, 0));
+	cameFrom = vector<vector<Vector2i>>(Map::dimensions.x, vector<Vector2i>(Map::dimensions.y));
 	visited = vector<vector<bool>>(Map::dimensions.x, vector<bool>(Map::dimensions.y, false));
-	astarQ = priority_queue<pair<Vector2i, vector<Vector2i>>, vector<pair<Vector2i, vector<Vector2i>>>, Compare>();
-	astarQ.push({ Vector2i(0, calcDist(startPos, targetPos)), {startPos} });
+	astarQ = priority_queue<pair<int, Vector2i>, vector<pair<int, Vector2i>>, Compare>();
+	gScore[startPos.x][startPos.y] = 0;
+	fScore[startPos.x][startPos.y] = calcDist(startPos, targetPos);
+	astarQ.push({ fScore[startPos.x][startPos.y], startPos});
 	finished = false;
 }
 
@@ -32,15 +37,8 @@ void AStar::step(vector<vector<MapSquare*>>& grid)
 {
 	if (astarQ.empty() || finished) return;
 
-	pair<Vector2i, vector<Vector2i>> cur = astarQ.top();
-	int gCost = cur.first.x, hCost = cur.first.y;
-	int fCost = gCost + hCost;
-
-	vector<Vector2i> path = cur.second;
-	curPos = path[path.size() - 1];
-	astarQ.pop();
-
-	if (visited[curPos.x][curPos.y] == true) return;
+	pair<int, Vector2i> cur = astarQ.top(); astarQ.pop();
+	Vector2i curPos = cur.second;
 	visited[curPos.x][curPos.y] = true;
 
 	if (curPos != startPos && curPos != targetPos)
@@ -49,9 +47,15 @@ void AStar::step(vector<vector<MapSquare*>>& grid)
 	if (curPos == targetPos)
 	{
 		finished = true;
-		for (Vector2i pos : path)
+		
+		Vector2i pos = curPos;
+
+		while (pos != startPos) {
 			if (pos != startPos && pos != targetPos)
 				grid[pos.x][pos.y] = new Path(pos.x, pos.y);
+			pos = cameFrom[pos.x][pos.y];
+		}
+			
 		return;
 	}
 
@@ -59,15 +63,15 @@ void AStar::step(vector<vector<MapSquare*>>& grid)
 	{
 		int newR = curPos.x + r;
 		int newC = curPos.y + c;
-		int newG = (r == 0 || c == 0) ? gCost + 10 : gCost + 14;
-		int newH = calcDist(targetPos, Vector2i(newR, newC));
-		if (isValid(newR, newC) && !visited[newR][newC] && 
-			dynamic_cast<Wall*>(grid[newR][newC]) == nullptr)
-		{
-			MapSquare* sq = grid[newR][newC];
-			vector<Vector2i> newPath = path;
-			newPath.push_back(Vector2i(newR, newC));
-			astarQ.push({Vector2i(newG, newH), newPath });
+		if (!isValid(newR, newC) || dynamic_cast<Wall*>(grid[newR][newC]) != nullptr) continue;
+		int provisional_gScore = gScore[curPos.x][curPos.y] + (r != 0 && c != 0 ?  14 : 10);
+		if (provisional_gScore < gScore[newR][newC]) {
+			cameFrom[newR][newC] = curPos;
+			gScore[newR][newC] = provisional_gScore;
+			fScore[newR][newC] = provisional_gScore + calcDist(Vector2i(newC, newR), targetPos);
+			if (!visited[newR][newC]) {
+				astarQ.push({ fScore[newR][newC], Vector2i(newR, newC) });
+			}
 		}
 	}
 }

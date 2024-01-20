@@ -42,7 +42,7 @@ void Engine::run()
 	Mode mode;
 	Panel panel;
 
-	Grid gridObj(Vector2i(4 , 4), Vector2i(28,28));
+	Grid gridObj(Vector2i(4 , 4), Vector2i(55 , 55));
 	vector<vector<MapSquare*>> grid = gridObj.getGrid();
 
 	DFS dfsAlgo = DFS(grid, gridObj.getStartPos(), gridObj.getTargetPos());

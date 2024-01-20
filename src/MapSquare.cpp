@@ -9,7 +9,7 @@
 
 using namespace std;
 
-const int MapSquare::size = 16;
+const int MapSquare::size = 8;
 
 MapSquare::MapSquare()
 {
