@@ -12,7 +12,7 @@ An interactive, step-by-step visualizer for classic graph search algorithms, bui
 
 | Maze | Mid-search (A\*) | Path found |
 |:---:|:---:|:---:|
-| ![Maze](screenshots/maze.png) | ![Search](screenshots/search.png) | ![Path](screenshots/path.png) |
+| ![Maze](screenshots/maze.PNG) | ![Search](screenshots/search.PNG) | ![Path](screenshots/path.PNG) |
 
 ---
 
